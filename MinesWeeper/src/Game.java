@@ -12,7 +12,7 @@ public class Game {
         Player player = new Player();
 
         //——————————————————————————————————————————
-        int firtsPlay = 0;
+        boolean firtsPlay = false;
         boolean isDead = false;
         player.makeNewGrid(matrixGridPlayer);
         player.buildGrid(matrixGridPlayer);
@@ -22,11 +22,12 @@ public class Game {
             int lineByPlayer = scanner.nextInt();
             System.out.print("Insert column: ");
             int columnByPlayer = scanner.nextInt();
-            if (firtsPlay == 0) {
+            if (!firtsPlay) {
                 cpuPlays.placeBombs(matrixGridCPU);
-                 cpuPlays.buildGrid(matrixGridCPU);
-                firtsPlay++;
+                cpuPlays.buildGrid(matrixGridCPU);
+                firtsPlay = true;
             }
+            //——————————————————————————————————————————
 
             if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals("\t🟧")) {
                 System.out.println("You have already play in this position");
@@ -46,11 +47,5 @@ public class Game {
             isDead = true;
 
         } while (!isDead);
-    }
-
-    private void checkPositionNearby(String[][] oneMatrix, int line, int column) {
-        if (oneMatrix == null) {
-            
-        }
     }
 }

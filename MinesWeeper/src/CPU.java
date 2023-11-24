@@ -5,21 +5,46 @@ public class CPU extends MakeGrids {
     Random random = new Random();
 
     @Override
-    void makeNewGrid(String[][] matrixGridCPU) {
-        super.makeNewGrid(matrixGridCPU);
+    void makeNewGrid(String[][] oneMatrix) {
+        super.makeNewGrid(oneMatrix);
     }
-    void placeBombs(String[][] matrixGridCPU) {
-        for (int i = 0; i < matrixGridCPU.length; i++) {
-            int line = random.nextInt(matrixGridCPU.length);
-            int column = random.nextInt(matrixGridCPU[0].length);
 
-            while (Objects.equals(matrixGridCPU[line][column], "\t💣")) {
-                line = random.nextInt(matrixGridCPU.length);
-                column = random.nextInt(matrixGridCPU[0].length);
+    int lineAll;
+    int columnAll;
+    int leghtMatrix;
+
+    void placeBombs(String[][] oneMatrix) {
+        leghtMatrix = oneMatrix.length;
+        for (int i = 0; i < oneMatrix.length; i++) {
+            int line = random.nextInt(oneMatrix.length);
+            lineAll = line;
+            int column = random.nextInt(oneMatrix[0].length);
+            columnAll = column;
+
+            while (Objects.equals(oneMatrix[line][column], "\t💣")) {
+                line = random.nextInt(oneMatrix.length);
+                column = random.nextInt(oneMatrix[0].length);
             }
-            matrixGridCPU[line][column] = "\t💣";
+            oneMatrix[line][column] = "\t💣";
+            //placeNumbers(oneMatrix);
         }
     }
+
+    void placeNumbers(String[][] oneMatrix) {
+        if (oneMatrix[lineAll][columnAll].equals("\t💣") && oneMatrix[lineAll - 1][columnAll].equals("\t🟩")) {
+            oneMatrix[lineAll - 1][columnAll] = "\t1️⃣";
+        }
+        if (oneMatrix[lineAll][columnAll].equals("\t💣") && oneMatrix[lineAll + 1][columnAll].equals("\t🟩")) {
+            oneMatrix[lineAll + 1][columnAll] = "\t1️⃣";
+        }
+        if (oneMatrix[lineAll][columnAll].equals("\t💣") && oneMatrix[lineAll][columnAll - 1].equals("\t🟩")) {
+            oneMatrix[lineAll][columnAll - 1] = "\t1️⃣";
+        }
+        if (oneMatrix[lineAll][columnAll].equals("\t💣") && oneMatrix[lineAll][columnAll + 1].equals("\t🟩")) {
+            oneMatrix[lineAll][columnAll + 1] = "\t1️⃣";
+        }
+    }
+
     @Override
     void buildGrid(String[][] matrixGridCPU) {
         super.buildGrid(matrixGridCPU);
