@@ -77,7 +77,7 @@ public class Main {
                 line = random.nextInt(matrixGrid.length);
                 column = random.nextInt(matrixGrid[0].length);
             }
-            matrixGrid[line][column] = "\t🟥";
+            matrixGrid[line][column] = "\t💣";
         }
         //buildGrid();
     }
