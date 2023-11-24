@@ -73,7 +73,7 @@ public class Main {
             int line = random.nextInt(matrixGrid.length);
             int column = random.nextInt(matrixGrid[0].length);
 
-            while (Objects.equals(matrixGrid[line][column], " O ")) {
+            while (Objects.equals(matrixGrid[line][column], "\t💣")) {
                 line = random.nextInt(matrixGrid.length);
                 column = random.nextInt(matrixGrid[0].length);
             }
