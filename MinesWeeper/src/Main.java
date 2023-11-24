@@ -3,6 +3,6 @@ public class Main {
         System.out.println("\t\tMINESWEEPER");
 
         Game game = new Game();
-        game.starGAME();
+        game.starGame();
     }
 }

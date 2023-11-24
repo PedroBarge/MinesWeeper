@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class Game {
     Scanner scanner = new Scanner(System.in);
 
-    public void starGAME() {
+    public void starGame() {
         String[][] matrixGridCPU = new String[10][10];
         String[][] matrixGridPlayer = new String[10][10];
         CPU cpuPlays = new CPU();
@@ -24,21 +24,33 @@ public class Game {
             int columnByPlayer = scanner.nextInt();
             if (firtsPlay == 0) {
                 cpuPlays.placeBombs(matrixGridCPU);
-                cpuPlays.buildGrid(matrixGridCPU);
+                 cpuPlays.buildGrid(matrixGridCPU);
                 firtsPlay++;
             }
+
+            if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals("\t🟧")) {
+                System.out.println("You have already play in this position");
+                continue;
+            }
+
             if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t🟩")) {
                 System.out.println("No bomb");
                 matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟧";
                 matrixGridPlayer[lineByPlayer][columnByPlayer] = "\t🟧";
-
                 player.buildGrid(matrixGridPlayer);
-            } else {
-                System.out.println("BOOOOOOM!!");
-                matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟥";
-                cpuPlays.buildGrid(matrixGridCPU);
-                isDead = true;
+                continue;
             }
+            System.out.println("BOOOOOOM!!");
+            matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟥";
+            cpuPlays.buildGrid(matrixGridCPU);
+            isDead = true;
+
         } while (!isDead);
+    }
+
+    private void checkPositionNearby(String[][] oneMatrix, int line, int column) {
+        if (oneMatrix == null) {
+            
+        }
     }
 }
