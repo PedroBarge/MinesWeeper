@@ -41,11 +41,28 @@ public class Game {
                 player.buildGrid(matrixGridPlayer);
                 continue;
             }
-            System.out.println("BOOOOOOM!!");
-            matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟥";
-            cpuPlays.buildGrid(matrixGridCPU);
-            isDead = true;
 
+            if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t1️⃣")) {
+                System.out.println("No bomb, but be carefull");
+                matrixGridCPU[lineByPlayer][columnByPlayer] = "\t1️⃣";
+                matrixGridPlayer[lineByPlayer][columnByPlayer] = "\t1️⃣";
+                player.buildGrid(matrixGridPlayer);
+                continue;
+            }
+
+            if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t💣")) {
+                System.out.println("BOOOOOOM!!");
+                matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟥";
+                for (int i = 0; i < matrixGridCPU.length; i++) {
+                    for (int j = 0; j < matrixGridCPU.length; j++) {
+                        if (matrixGridCPU[i][j].equals("\t1️⃣")) {
+                            matrixGridCPU[i][j]="\t🟩";
+                        }
+                    }
+                }
+                cpuPlays.buildGrid(matrixGridCPU);
+                isDead = true;
+            }
         } while (!isDead);
     }
 }
