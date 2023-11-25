@@ -10,7 +10,7 @@ public class Game {
         CPU cpuPlays = new CPU();
         cpuPlays.makeNewGrid(matrixGridCPU);
         Player player = new Player();
-
+        int maxPlayes = 90;
         //——————————————————————————————————————————
         boolean firtsPlay = false;
         boolean isDead = false;
@@ -39,6 +39,11 @@ public class Game {
                 matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟧";
                 matrixGridPlayer[lineByPlayer][columnByPlayer] = "\t🟧";
                 player.buildGrid(matrixGridPlayer);
+                maxPlayes--;
+                if (maxPlayes == 0) {
+                    System.out.println("YOU WON");
+                    isDead = true;
+                }
                 continue;
             }
 
@@ -47,6 +52,11 @@ public class Game {
                 matrixGridCPU[lineByPlayer][columnByPlayer] = "\t1️⃣";
                 matrixGridPlayer[lineByPlayer][columnByPlayer] = "\t1️⃣";
                 player.buildGrid(matrixGridPlayer);
+                maxPlayes--;
+                if (maxPlayes == 0) {
+                    System.out.println("YOU WON");
+                    isDead = true;
+                }
                 continue;
             }
 
@@ -56,13 +66,14 @@ public class Game {
                 for (int i = 0; i < matrixGridCPU.length; i++) {
                     for (int j = 0; j < matrixGridCPU.length; j++) {
                         if (matrixGridCPU[i][j].equals("\t1️⃣")) {
-                            matrixGridCPU[i][j]="\t🟩";
+                            matrixGridCPU[i][j] = "\t🟩";
                         }
                     }
                 }
                 cpuPlays.buildGrid(matrixGridCPU);
                 isDead = true;
             }
+
         } while (!isDead);
     }
 }
