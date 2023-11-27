@@ -35,39 +35,54 @@ public class Game {
                 }
 
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t🟩")) {
+                    clean();
                     System.out.println("No bomb");
-                    matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟧";
-                    matrixGridPlayer[lineByPlayer][columnByPlayer] = "\t🟧";
-                    fillSpace(matrixGridPlayer, lineByPlayer, columnByPlayer, "\t🟩", "\t🟧");
+                    fillSpace(matrixGridCPU, lineByPlayer, columnByPlayer, "\t🟩", "\t🟧");
+
+                    for (int i = 0; i < matrixGridPlayer.length; i++) {
+                        for (int j = 0; j < matrixGridPlayer.length; j++) {
+                            if (matrixGridCPU[i][j].equals("\t🟧")) {
+                                matrixGridPlayer[i][j]= matrixGridCPU[i][j];
+                            }
+                        }
+                    }
                     player.buildGrid(matrixGridPlayer);
 
                     maxPlayes--;
                     if (maxPlayes == 0) {
+                        clean();
                         System.out.println("YOU WON");
+                        player.buildGrid(matrixGridPlayer);
                         isDead = true;
                     }
                     continue;
                 }
 
-                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t1️⃣")) {
-                    System.out.println("No bomb, but be carefull");
-                    matrixGridCPU[lineByPlayer][columnByPlayer] = "\t1️⃣";
-                    matrixGridPlayer[lineByPlayer][columnByPlayer] = "\t1️⃣";
-                    player.buildGrid(matrixGridPlayer);
-                    maxPlayes--;
-                    if (maxPlayes == 0) {
-                        System.out.println("YOU WON");
-                        isDead = true;
+                for (int i = 0; i < cpuPlays.numbers.length - 1; i++) {
+                    if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(cpuPlays.numbers[i])) {
+                        clean();
+                        System.out.println("No bomb, but be carefull");
+                        matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟧";
+                        matrixGridPlayer[lineByPlayer][columnByPlayer] = cpuPlays.numbers[i];
+                        player.buildGrid(matrixGridPlayer);
+                        maxPlayes--;
+                        if (maxPlayes == 0) {
+                            clean();
+                            System.out.println("YOU WON");
+                            player.buildGrid(matrixGridPlayer);
+                            isDead = true;
+                        }
                     }
-                    continue;
                 }
 
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t💣")) {
+                    clean();
                     System.out.println("BOOOOOOM!!");
                     matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟥";
                     for (int i = 0; i < matrixGridCPU.length; i++) {
                         for (int j = 0; j < matrixGridCPU.length; j++) {
-                            if (matrixGridCPU[i][j].equals("\t1️⃣")) {
+                            if (!matrixGridCPU[i][j].equals("\t💣") && !matrixGridCPU[i][j].equals("\t🟧")
+                                    && !matrixGridCPU[i][j].equals("\t🟥")) {
                                 matrixGridCPU[i][j] = "\t🟩";
                             }
                         }
@@ -75,24 +90,36 @@ public class Game {
                     cpuPlays.buildGrid(matrixGridCPU);
                     isDead = true;
                 }
+                //ArrayIndexOutOfBoundsException
             } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
                 scanner.nextLine();
+                System.out.println(e);
                 System.out.println("Please, only insert the right numbers\n");
             }
         } while (!isDead);
 
     }
 
+    void clean() {
+        for (int i = 0; i < 40; i++) {
+            System.out.println();
+        }
+    }
+
     public void fillSpace(String[][] oneMatrix, int oneLine, int oneColumn, String oldColor, String newColor) {
-        if (!oneMatrix[oneLine][oneColumn].equals(oldColor) || oneMatrix[oneLine][oneColumn].equals(newColor)
-                || oneLine < 0 || oneColumn < 0
-                || oneLine >= oneMatrix.length || oneColumn >= oneMatrix[0].length) {
+
+        if (oneLine < 0 || oneLine >= oneMatrix.length || oneColumn < 0 || oneColumn >= oneMatrix.length) {
+            return;
+        }
+        if (!oneMatrix[oneLine][oneColumn].equals(oldColor)) {
             return;
         }
         oneMatrix[oneLine][oneColumn] = newColor;
-        fillSpace(oneMatrix, oneLine - 1, oneColumn, oldColor, newColor);
+
         fillSpace(oneMatrix, oneLine + 1, oneColumn, oldColor, newColor);
-        fillSpace(oneMatrix, oneLine, oneColumn - 1, oldColor, newColor);
+        fillSpace(oneMatrix, oneLine - 1, oneColumn, oldColor, newColor);
         fillSpace(oneMatrix, oneLine, oneColumn + 1, oldColor, newColor);
+        fillSpace(oneMatrix, oneLine, oneColumn - 1, oldColor, newColor);
+
     }
 }
