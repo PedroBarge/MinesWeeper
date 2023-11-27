@@ -39,12 +39,11 @@ public class Game {
                 //——————————————————————————————————————————
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
                     clean();
-                    System.out.println("No bomb");
+                    System.out.println("No bomb here");
 
                     if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
                         matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage());
                     }
-
                     fillSpace(matrixGridCPU, lineByPlayer, columnByPlayer, Tiles.DEFAULT.getTileImage(), Tiles.TILE_PLAYER_ATACK.getTileImage());
 
                     for (int i = 0; i < matrixGridPlayer.length; i++) {
@@ -58,9 +57,18 @@ public class Game {
                     continue;
                 }
                 //——————————————————————————————————————————
+                //Fazer mostrar numero
+                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
+                    System.out.println("Not a bomb but...");
+                    matrixGridPlayer[lineByPlayer][columnByPlayer] = matrixGridCPU[lineByPlayer][columnByPlayer];
+                    matrixGridCPU[lineByPlayer][columnByPlayer]= Tiles.TILE_PLAYER_ATACK.getTileImage();
+                    player.buildGrid(matrixGridPlayer);
+                    continue;
+                }
+                //——————————————————————————————————————————
                 for (int i = 0; i < matrixGridPlayer.length; i++) {
                     for (int j = 0; j < matrixGridPlayer.length; j++) {
-                        if (matrixGridPlayer[i][j].equals("\t🟧")) {
+                        if (matrixGridPlayer[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
                             maxPlayes++;
                             //System.out.println(maxPlayes);
                         }
@@ -69,13 +77,6 @@ public class Game {
                 if (maxPlayes == 90) {
                     clean();
                     System.out.println("YOU WON");
-                    for (int i = 0; i < matrixGridCPU.length; i++) {
-                        for (int j = 0; j < matrixGridCPU.length; j++) {
-                            if (matrixGridCPU[i][j].equals("\t🟨")) {
-                                matrixGridPlayer[i][j] = "\t🟨";
-                            }
-                        }
-                    }
                     player.buildGrid(matrixGridPlayer);
                     isAlive = true;
                 }
@@ -83,15 +84,12 @@ public class Game {
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t💣")) {
                     clean();
                     System.out.println("BOOOOOOM!!");
-                    matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟥";
+                    matrixGridCPU[lineByPlayer][columnByPlayer] = Tiles.TILE_BOMB_EXPLODE.getTileImage();
                     for (int i = 0; i < matrixGridCPU.length; i++) {
                         for (int j = 0; j < matrixGridCPU.length; j++) {
-                            if (matrixGridCPU[i][j].equals("\t🟨")) {
-                                matrixGridCPU[i][j] = "\t🟨";
-                            }
-                            if (!matrixGridCPU[i][j].equals("\t💣") && !matrixGridCPU[i][j].equals("\t🟧")
-                                    && !matrixGridCPU[i][j].equals("\t🟥") && !matrixGridCPU[i][j].equals("\t🟨")) {
-                                matrixGridCPU[i][j] = "\t🟩";
+                            if (!matrixGridCPU[i][j].equals(Tiles.TILE_BOMB.getTileImage()) && !matrixGridCPU[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())
+                                    && !matrixGridCPU[i][j].equals(Tiles.TILE_BOMB_EXPLODE.getTileImage())) {
+                                matrixGridCPU[i][j] = Tiles.DEFAULT.getTileImage();
                             }
                         }
                     }
@@ -102,7 +100,6 @@ public class Game {
             } catch (InputMismatchException | ArrayIndexOutOfBoundsException | InterruptedException e) {
                 scanner.nextLine();
                 System.out.println("Please, only insert the right numbers\n");
-
             }
             //——————————————————————————————————————————
         } while (!isAlive);

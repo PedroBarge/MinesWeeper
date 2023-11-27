@@ -28,43 +28,28 @@ public class CPU extends MakeGrids {
 
     void placeNumbers(String[][] oneMatrix, int line, int column) {
 
+        // TODO: 27/11/2023 Verificar os numeros e mudar conforme o numero de bombas perto.
+
         int numRows = oneMatrix.length;
         int numCols = oneMatrix[0].length;
 
-        if (line - 1 >= 0 && oneMatrix[line][column].equals("\t💣")
-                && oneMatrix[line - 1][column].equals("\t🟩")) {
-            oneMatrix[line - 1][column] = numbers[countSpace(oneMatrix, line, column)-1];
+        if (line - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
+                && oneMatrix[line - 1][column].equals(Tiles.DEFAULT.getTileImage())) {
+            oneMatrix[line - 1][column] = Tiles.TILE_ONE.getTileImage();
         }
-        if (line + 1 < numRows && oneMatrix[line][column].equals("\t💣")
-                && oneMatrix[line + 1][column].equals("\t🟩")) {
-            oneMatrix[line + 1][column] = numbers[countSpace(oneMatrix, line, column)-1];
+        if (line + 1 < numRows && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
+                && oneMatrix[line + 1][column].equals(Tiles.DEFAULT.getTileImage())) {
+            oneMatrix[line + 1][column] = Tiles.TILE_ONE.getTileImage();
         }
-        if (column - 1 >= 0 && oneMatrix[line][column].equals("\t💣")
-                && oneMatrix[line][column - 1].equals("\t🟩")) {
-            oneMatrix[line][column - 1] = numbers[countSpace(oneMatrix, line, column)-1];
+        if (column - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
+                && oneMatrix[line][column - 1].equals(Tiles.DEFAULT.getTileImage())) {
+            oneMatrix[line][column - 1] = Tiles.TILE_ONE.getTileImage();
         }
-        if (column + 1 < numCols && oneMatrix[line][column].equals("\t💣")
-                && oneMatrix[line][column + 1].equals("\t🟩")) {
-            oneMatrix[line][column + 1] = numbers[countSpace(oneMatrix, line, column)-1];
+        if (column + 1 < numCols && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
+                && oneMatrix[line][column + 1].equals(Tiles.DEFAULT.getTileImage())) {
+            oneMatrix[line][column + 1] = Tiles.TILE_ONE.getTileImage();
         }
-    }
-
-    int countSpace(String[][] oneMatrix, int line, int column) {
-        int counterBombs = 0;
-        int numRows = oneMatrix.length;
-        int numCols = oneMatrix[0].length;
-
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int newRow = line + i;
-                int newCol = column + j;
-                if (newRow >= 0 && newRow < numRows && newCol >= 0 && newCol < numCols
-                        && oneMatrix[newRow][newCol].equals("\t💣")) {
-                    counterBombs++;
-                }
-            }
-        }
-        return counterBombs;
+        
     }
 
 

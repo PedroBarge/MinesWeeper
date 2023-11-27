@@ -41,7 +41,7 @@ public class Main {
         clean();
         System.out.println("+------------------------------------------------------------------------------------+");
         System.out.println("\t\t\t\t\t\t\t\t\tRULES");
-        System.out.println("\tThis game is based in Minesweeper\n");
+        System.out.println("\t\t\tThis game is based in Minesweeper\n");
         System.out.println("""
                 \tWhen the game starts, you will see a exemple map\s
                 \tYou need to pick a line's number and press enter to choose a column's number.\s
