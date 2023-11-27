@@ -3,7 +3,7 @@ public class MakeGrids {
     void makeNewGrid(String[][] oneMatrix) {
         for (int i = 0; i < oneMatrix.length; i++) {
             for (int j = 0; j < oneMatrix.length; j++) {
-                oneMatrix[i][j] = "\t🟩";
+                oneMatrix[i][j] = Tiles.DEFAULT.getTileImage();
             }
         }
     }

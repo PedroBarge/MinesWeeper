@@ -1,4 +1,3 @@
-import java.util.Objects;
 import java.util.Random;
 
 public class CPU extends MakeGrids {
@@ -18,7 +17,7 @@ public class CPU extends MakeGrids {
             int line = random.nextInt(oneMatrix.length);
             int column = random.nextInt(oneMatrix[0].length);
 
-            while (Objects.equals(oneMatrix[line][column], "\t💣")) {
+            while (oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())) {
                 line = random.nextInt(oneMatrix.length);
                 column = random.nextInt(oneMatrix[0].length);
             }
@@ -27,9 +26,8 @@ public class CPU extends MakeGrids {
         }
     }
 
-    String[] numbers = new String[]{"\t1️⃣", "\t2️⃣", "\t3️⃣", "\t4️⃣", "\t5️⃣", "\t6️⃣", "\t7️⃣", "\t8️⃣"};
-
     void placeNumbers(String[][] oneMatrix, int line, int column) {
+
         int numRows = oneMatrix.length;
         int numCols = oneMatrix[0].length;
 

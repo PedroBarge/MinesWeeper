@@ -32,41 +32,30 @@ public class Game {
                     firtsPlay = true;
                 }
                 //——————————————————————————————————————————
-                if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals("\t🟧")) {
+                if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
                     System.out.println("You have already play in this position");
                     continue;
                 }
                 //——————————————————————————————————————————
-                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t🟩")) {
+                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
                     clean();
                     System.out.println("No bomb");
-                    for (int i = 0; i < cpuPlays.numbers.length; i++) {
-                        if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(cpuPlays.numbers[i])) {
-                            matrixGridPlayer[lineByPlayer][columnByPlayer] = cpuPlays.numbers[i];
-                        }
+
+                    if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
+                        matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage());
                     }
 
-                    fillSpace(matrixGridCPU, lineByPlayer, columnByPlayer, "\t🟩", "\t🟧");
+                    fillSpace(matrixGridCPU, lineByPlayer, columnByPlayer, Tiles.DEFAULT.getTileImage(), Tiles.TILE_PLAYER_ATACK.getTileImage());
 
                     for (int i = 0; i < matrixGridPlayer.length; i++) {
                         for (int j = 0; j < matrixGridPlayer.length; j++) {
-                            if (matrixGridCPU[i][j].equals("\t🟧")) {
+                            if (matrixGridCPU[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
                                 matrixGridPlayer[i][j] = matrixGridCPU[i][j];
                             }
                         }
                     }
                     player.buildGrid(matrixGridPlayer);
                     continue;
-                }
-                //——————————————————————————————————————————
-                for (int i = 0; i < cpuPlays.numbers.length; i++) {
-                    if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(cpuPlays.numbers[i])) {
-                        clean();
-                        System.out.println("No bomb, but be carefull");
-                        matrixGridPlayer[lineByPlayer][columnByPlayer] = cpuPlays.numbers[i];
-                        player.buildGrid(matrixGridPlayer);
-                        matrixGridCPU[lineByPlayer][columnByPlayer] = "\t🟨";
-                    }
                 }
                 //——————————————————————————————————————————
                 for (int i = 0; i < matrixGridPlayer.length; i++) {
@@ -110,12 +99,10 @@ public class Game {
                     Thread.sleep(5000);
                     isAlive = true;
                 }
-            } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
+            } catch (InputMismatchException | ArrayIndexOutOfBoundsException | InterruptedException e) {
                 scanner.nextLine();
-                //System.out.println(e);
                 System.out.println("Please, only insert the right numbers\n");
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+
             }
             //——————————————————————————————————————————
         } while (!isAlive);
