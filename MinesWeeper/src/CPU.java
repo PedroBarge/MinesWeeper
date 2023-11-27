@@ -35,19 +35,19 @@ public class CPU extends MakeGrids {
 
         if (line - 1 >= 0 && oneMatrix[line][column].equals("\t💣")
                 && oneMatrix[line - 1][column].equals("\t🟩")) {
-            oneMatrix[line - 1][column] = numbers[countSpace(oneMatrix, line, column)];
+            oneMatrix[line - 1][column] = numbers[countSpace(oneMatrix, line, column)-1];
         }
         if (line + 1 < numRows && oneMatrix[line][column].equals("\t💣")
                 && oneMatrix[line + 1][column].equals("\t🟩")) {
-            oneMatrix[line + 1][column] = numbers[countSpace(oneMatrix, line, column)];
+            oneMatrix[line + 1][column] = numbers[countSpace(oneMatrix, line, column)-1];
         }
         if (column - 1 >= 0 && oneMatrix[line][column].equals("\t💣")
                 && oneMatrix[line][column - 1].equals("\t🟩")) {
-            oneMatrix[line][column - 1] = numbers[countSpace(oneMatrix, line, column)];
+            oneMatrix[line][column - 1] = numbers[countSpace(oneMatrix, line, column)-1];
         }
         if (column + 1 < numCols && oneMatrix[line][column].equals("\t💣")
                 && oneMatrix[line][column + 1].equals("\t🟩")) {
-            oneMatrix[line][column + 1] = numbers[countSpace(oneMatrix, line, column)];
+            oneMatrix[line][column + 1] = numbers[countSpace(oneMatrix, line, column)-1];
         }
     }
 
@@ -80,7 +80,6 @@ public class CPU extends MakeGrids {
             for (int j = -1; j <= 1; j++) {
                 int newRow = line + i;
                 int newCol = column + j;
-
                 // Garante que os índices estão dentro dos limites da matriz e verifica se é uma bomba
                 if (newRow >= 0 && newRow < numRows && newCol >= 0 && newCol < numCols
                         && oneMatrix[newRow][newCol].equals("\t💣")) {
@@ -97,5 +96,3 @@ public class CPU extends MakeGrids {
         super.buildGrid(matrixGridCPU);
     }
 }
-
-
