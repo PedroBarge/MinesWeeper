@@ -32,17 +32,16 @@ public class Game {
                     firtsPlay = true;
                 }
                 //——————————————————————————————————————————
-                // TODO: 27/11/2023 Fazer vitoria
-                checkWin(matrixGridPlayer);
-                //——————————————————————————————————————————
-                if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+
+                /*if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
                     System.out.println("You have already play in this position");
                     continue;
                 }
                 if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
                     System.out.println("You have already play in this position");
                     continue;
-                }
+                }*/
+                checkRepeatPosition(matrixGridPlayer,lineByPlayer,columnByPlayer);
                 //——————————————————————————————————————————
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
                     clean();
@@ -57,6 +56,7 @@ public class Game {
                         }
                     }
                     player.buildGrid(matrixGridPlayer);
+                    checkWin(matrixGridPlayer);
                     continue;
                 }
                 //——————————————————————————————————————————
@@ -67,6 +67,7 @@ public class Game {
                     System.out.println("Not a bomb but...");
                     matrixGridPlayer[lineByPlayer][columnByPlayer] = Tiles.TILE_ONE.getTileImage();
                     player.buildGrid(matrixGridPlayer);
+                    checkWin(matrixGridPlayer);
                     continue;
                 }
                 //——————————————————————————————————————————
@@ -95,9 +96,16 @@ public class Game {
                     Thread.sleep(5000);
                     isAlive = true;
                 }
-            } catch (InputMismatchException | ArrayIndexOutOfBoundsException | InterruptedException e) {
+
+            } catch (InputMismatchException | InterruptedException e) {
                 scanner.nextLine();
-                System.out.println("Please, only insert the right numbers\n");
+                System.out.println("Please, insert only numbers\n");
+            } catch (ArrayIndexOutOfBoundsException e){
+                scanner.nextLine();
+                System.out.println("You need to choose a number between 0-9\n");
+            } catch (Exception e){
+                scanner.nextLine();
+                System.out.println("Another error");
             }
             //——————————————————————————————————————————
         } while (!isAlive);
@@ -136,7 +144,8 @@ public class Game {
                 }
             }
         }
-        if (counter == 60) {
+        System.out.println(counter);
+        if (counter >= 60) {
             clean();
             System.out.println("YOU WON");
             player.buildGrid(matrixGridPlayer);

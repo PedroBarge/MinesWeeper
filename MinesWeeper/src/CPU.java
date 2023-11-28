@@ -71,19 +71,19 @@ public class CPU extends MakeGrids {
             // Atribui a imagem correspondente ao número de bombas vizinhas
             if (line - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
                     && oneMatrix[line - 1][column].equals(Tiles.DEFAULT.getTileImage())) {
-                oneMatrix[line - 1][column] = numbersImages[bombsNearby - 1];
+                oneMatrix[line - 1][column] = numbersImages[countBombs(oneMatrix) - 1];
             }
             if (line + 1 < numRows && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
                     && oneMatrix[line + 1][column].equals(Tiles.DEFAULT.getTileImage())) {
-                oneMatrix[line + 1][column] = numbersImages[bombsNearby - 1];
+                oneMatrix[line + 1][column] = numbersImages[countBombs(oneMatrix) - 1];
             }
             if (column - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
                     && oneMatrix[line][column - 1].equals(Tiles.DEFAULT.getTileImage())) {
-                oneMatrix[line][column - 1] = numbersImages[bombsNearby - 1];
+                oneMatrix[line][column - 1] = numbersImages[countBombs(oneMatrix) - 1];
             }
             if (column + 1 < numCols && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
                     && oneMatrix[line][column + 1].equals(Tiles.DEFAULT.getTileImage())) {
-                oneMatrix[line][column + 1] = numbersImages[bombsNearby - 1];
+                oneMatrix[line][column + 1] = numbersImages[countBombs(oneMatrix) - 1];
             }
         }
     }
