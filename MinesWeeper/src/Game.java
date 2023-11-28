@@ -73,7 +73,7 @@ public class Game {
                         System.out.println("Not a bomb but...");
                         matrixGridPlayer[lineByPlayer][columnByPlayer].update(matrixGridCPU[lineByPlayer][columnByPlayer].getValue(), matrixGridCPU[lineByPlayer][columnByPlayer].getImageEmoji());
                         player.buildGrid(matrixGridPlayer);
-                        matrixGridCPU[lineByPlayer][columnByPlayer].update(Tiles.TILE_PLAYER_NUMBER.getIndex(),Tiles.TILE_PLAYER_NUMBER.getTileImage());
+                        matrixGridCPU[lineByPlayer][columnByPlayer].update(Tiles.TILE_PLAYER_NUMBER.getIndex(), Tiles.TILE_PLAYER_NUMBER.getTileImage());
                         checkWin(matrixGridPlayer, lineByPlayer, columnByPlayer);
                     }
                 }
@@ -94,7 +94,6 @@ public class Game {
                             }
                         }
                     }
-
                     cpuPlays.buildGrid(matrixGridCPU);
                     Thread.sleep(5000);
                     isAlive = true;
@@ -135,7 +134,7 @@ public class Game {
 
         if (matrixGridCPU[oneLine][oneColumn].getValue() > 0) {
             oneMatrix[oneLine][oneColumn].update(matrixGridCPU[oneLine][oneColumn].getValue(), matrixGridCPU[oneLine][oneColumn].getImageEmoji());
-            matrixGridCPU[oneLine][oneColumn].update(Tiles.TILE_PLAYER_NUMBER.getIndex(),Tiles.TILE_PLAYER_NUMBER.getTileImage());
+            matrixGridCPU[oneLine][oneColumn].update(Tiles.TILE_PLAYER_NUMBER.getIndex(), Tiles.TILE_PLAYER_NUMBER.getTileImage());
             return;
         }
         oneMatrix[oneLine][oneColumn].update(Tiles.TILE_PLAYER_ATACK.getIndex(), Tiles.TILE_PLAYER_ATACK.getTileImage());
@@ -172,7 +171,7 @@ public class Game {
         }
     }
 
-    public void checkRepeatPosition(Position[][] matrixGridPlayer, int lineByPlayer, int columnByPlayer) {
+    public void checkRepeatPosition(Position[][] matrixGridPlayer, int lineByPlayer, int columnByPlayer) throws InterruptedException {
 
         if (matrixGridPlayer[lineByPlayer][columnByPlayer].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
             System.out.println("You have already play in this position");
@@ -180,6 +179,7 @@ public class Game {
         if (matrixGridPlayer[lineByPlayer][columnByPlayer].getImageEmoji().equals(Tiles.TILE_ONE.getTileImage())) {
             System.out.println("You have already play in this position");
         }
+
     }
 
 }
