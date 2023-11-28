@@ -6,7 +6,7 @@ enum Tiles {
     //——————————————————————————————————————————
     TILE_ONE(1, "\t1️⃣"),
     TILE_TWO(2, "\t2️⃣"),
-    TILE_TREE(3, "\t3️⃣"),
+    TILE_THREE(3, "\t3️⃣"),
     TILE_FOUR(4, "\t4️⃣"),
     TILE_FIVE(5, "\t5️⃣"),
     TILE_SIX(6, "\t6️⃣"),

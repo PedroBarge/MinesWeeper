@@ -3,21 +3,21 @@ import java.util.Scanner;
 
 public class Game {
     Scanner scanner = new Scanner(System.in);
+    //——————————————————————————————————————————
     CPU cpuPlays = new CPU();
+    Player player = new Player();
+    //——————————————————————————————————————————
+    boolean firtsPlay = false;
+    boolean isAlive = false;
 
     public void starGame() {
         String[][] matrixGridCPU = new String[10][10];
         String[][] matrixGridPlayer = new String[10][10];
         //——————————————————————————————————————————
         cpuPlays.makeNewGrid(matrixGridCPU);
-        Player player = new Player();
-        //——————————————————————————————————————————
-        boolean firtsPlay = false;
-        boolean isAlive = false;
         //——————————————————————————————————————————
         player.makeNewGrid(matrixGridPlayer);
         player.buildGrid(matrixGridPlayer);
-        int maxPlayes = 0;
 
         do {
             try {
@@ -32,7 +32,14 @@ public class Game {
                     firtsPlay = true;
                 }
                 //——————————————————————————————————————————
+                // TODO: 27/11/2023 Fazer vitoria
+                checkWin(matrixGridPlayer);
+                //——————————————————————————————————————————
                 if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+                    System.out.println("You have already play in this position");
+                    continue;
+                }
+                if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
                     System.out.println("You have already play in this position");
                     continue;
                 }
@@ -40,10 +47,6 @@ public class Game {
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
                     clean();
                     System.out.println("No bomb here");
-
-                    if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
-                        matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage());
-                    }
                     fillSpace(matrixGridCPU, lineByPlayer, columnByPlayer, Tiles.DEFAULT.getTileImage(), Tiles.TILE_PLAYER_ATACK.getTileImage());
 
                     for (int i = 0; i < matrixGridPlayer.length; i++) {
@@ -57,31 +60,19 @@ public class Game {
                     continue;
                 }
                 //——————————————————————————————————————————
-                //Fazer mostrar numero
+                //Existe bom por perto
+                // TODO: 28/11/2023 Tenho que acabar isto
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
+                    clean();
                     System.out.println("Not a bomb but...");
-                    matrixGridPlayer[lineByPlayer][columnByPlayer] = matrixGridCPU[lineByPlayer][columnByPlayer];
-                    matrixGridCPU[lineByPlayer][columnByPlayer]= Tiles.TILE_PLAYER_ATACK.getTileImage();
+                    matrixGridPlayer[lineByPlayer][columnByPlayer] = Tiles.TILE_ONE.getTileImage();
                     player.buildGrid(matrixGridPlayer);
                     continue;
                 }
                 //——————————————————————————————————————————
-                for (int i = 0; i < matrixGridPlayer.length; i++) {
-                    for (int j = 0; j < matrixGridPlayer.length; j++) {
-                        if (matrixGridPlayer[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
-                            maxPlayes++;
-                            //System.out.println(maxPlayes);
-                        }
-                    }
-                }
-                if (maxPlayes == 90) {
-                    clean();
-                    System.out.println("YOU WON");
-                    player.buildGrid(matrixGridPlayer);
-                    isAlive = true;
-                }
-                //——————————————————————————————————————————
-                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals("\t💣")) {
+
+                //O jogo acabou Jogador perdeu
+                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.TILE_BOMB.getTileImage())) {
                     clean();
                     System.out.println("BOOOOOOM!!");
                     matrixGridCPU[lineByPlayer][columnByPlayer] = Tiles.TILE_BOMB_EXPLODE.getTileImage();
@@ -90,6 +81,13 @@ public class Game {
                             if (!matrixGridCPU[i][j].equals(Tiles.TILE_BOMB.getTileImage()) && !matrixGridCPU[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())
                                     && !matrixGridCPU[i][j].equals(Tiles.TILE_BOMB_EXPLODE.getTileImage())) {
                                 matrixGridCPU[i][j] = Tiles.DEFAULT.getTileImage();
+                            }
+                        }
+                    }
+                    for (int i = 0; i < matrixGridCPU.length; i++) {
+                        for (int j = 0; j < matrixGridCPU.length; j++) {
+                            if (matrixGridPlayer[i][j].equals(Tiles.TILE_ONE.getTileImage())) {
+                                matrixGridCPU[i][j] = Tiles.TILE_PLAYER_ATACK.getTileImage();
                             }
                         }
                     }
@@ -104,7 +102,6 @@ public class Game {
             //——————————————————————————————————————————
         } while (!isAlive);
     }
-
     //——————————————————————————————————————————
     void clean() {
         for (int i = 0; i < 40; i++) {
@@ -128,6 +125,34 @@ public class Game {
         fillSpace(oneMatrix, oneLine, oneColumn + 1, oldColor, newColor);
         fillSpace(oneMatrix, oneLine, oneColumn - 1, oldColor, newColor);
 
+    }
+
+    public void checkWin(String[][] matrixGridPlayer) throws InterruptedException {
+        int counter = 0;
+        for (int i = 0; i < matrixGridPlayer.length; i++) {
+            for (int j = 0; j < matrixGridPlayer.length; j++) {
+                if (matrixGridPlayer[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+                    counter++;
+                }
+            }
+        }
+        if (counter == 60) {
+            clean();
+            System.out.println("YOU WON");
+            player.buildGrid(matrixGridPlayer);
+            Thread.sleep(5000);
+            isAlive = true;
+        }
+    }
+
+    public void checkRepeatPosition(String[][] matrixGridPlayer, int lineByPlayer, int columnByPlayer) {
+
+        if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+            System.out.println("You have already play in this position");
+        }
+        if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
+            System.out.println("You have already play in this position");
+        }
     }
 
 }
