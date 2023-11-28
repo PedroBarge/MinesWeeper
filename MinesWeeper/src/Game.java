@@ -145,7 +145,7 @@ public class Game {
             }
         }
         System.out.println(counter);
-        if (counter >= 60) {
+        if (counter >= 90) {
             clean();
             System.out.println("YOU WON");
             player.buildGrid(matrixGridPlayer);
