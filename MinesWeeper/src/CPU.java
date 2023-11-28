@@ -9,13 +9,13 @@ public class CPU extends MakeGrids {
         super.makeNewGrid(oneMatrix);
     }
 
-    int leghtMatrix;
 
     void placeBombs(String[][] oneMatrix) {
-        leghtMatrix = oneMatrix.length;
+        int line;
+        int column;
         for (int i = 0; i < oneMatrix.length; i++) {
-            int line = random.nextInt(oneMatrix.length);
-            int column = random.nextInt(oneMatrix[0].length);
+            line = random.nextInt(oneMatrix.length);
+            column = random.nextInt(oneMatrix[0].length);
 
             while (oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())) {
                 line = random.nextInt(oneMatrix.length);
@@ -32,23 +32,6 @@ public class CPU extends MakeGrids {
 
         int numRows = oneMatrix.length;
         int numCols = oneMatrix[0].length;
-
-        /*if (line - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line - 1][column].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line - 1][column] = Tiles.TILE_ONE.getTileImage();
-        }
-        if (line + 1 < numRows && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line + 1][column].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line + 1][column] = Tiles.TILE_ONE.getTileImage();
-        }
-        if (column - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line][column - 1].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line][column - 1] = Tiles.TILE_ONE.getTileImage();
-        }
-        if (column + 1 < numCols && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line][column + 1].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line][column + 1] = Tiles.TILE_ONE.getTileImage();
-        }*/
 
 
         String[] numbersImages = {

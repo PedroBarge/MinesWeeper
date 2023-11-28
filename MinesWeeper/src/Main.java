@@ -4,9 +4,6 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
         Scanner scanner = new Scanner(System.in);
         String userChoiceMenu;
-        Game game = new Game();
-
-
         do {
             clean();
             System.out.println("\t\tMINESWEEPER");
@@ -18,6 +15,7 @@ public class Main {
                     break;
                 case "2":
                     clean();
+                    Game game = new Game();
                     game.starGame();
                     break;
                 case "0":
@@ -25,6 +23,7 @@ public class Main {
                     break;
                 default:
                     System.out.println("\nPlease insert correct option\n");
+                    Thread.sleep(2000);
             }
         } while (!userChoiceMenu.equals("0"));
     }

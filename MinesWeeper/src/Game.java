@@ -9,7 +9,18 @@ public class Game {
     //——————————————————————————————————————————
     boolean firtsPlay = false;
     boolean isAlive = false;
-
+    //——————————————————————————————————————————
+    String[] numbersImages = {
+            Tiles.TILE_ONE.getTileImage(),
+            Tiles.TILE_TWO.getTileImage(),
+            Tiles.TILE_THREE.getTileImage(),
+            Tiles.TILE_FOUR.getTileImage(),
+            Tiles.TILE_FIVE.getTileImage(),
+            Tiles.TILE_SIX.getTileImage(),
+            Tiles.TILE_SEVEN.getTileImage(),
+            Tiles.TILE_EIGHT.getTileImage()
+    };
+    //——————————————————————————————————————————
     public void starGame() {
         String[][] matrixGridCPU = new String[10][10];
         String[][] matrixGridPlayer = new String[10][10];
@@ -41,7 +52,7 @@ public class Game {
                     System.out.println("You have already play in this position");
                     continue;
                 }*/
-                checkRepeatPosition(matrixGridPlayer,lineByPlayer,columnByPlayer);
+                checkRepeatPosition(matrixGridPlayer, lineByPlayer, columnByPlayer);
                 //——————————————————————————————————————————
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
                     clean();
@@ -56,19 +67,21 @@ public class Game {
                         }
                     }
                     player.buildGrid(matrixGridPlayer);
-                    checkWin(matrixGridPlayer);
+                    checkWin(matrixGridPlayer, lineByPlayer, columnByPlayer);
                     continue;
                 }
                 //——————————————————————————————————————————
                 //Existe bom por perto
                 // TODO: 28/11/2023 Tenho que acabar isto
-                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
-                    clean();
-                    System.out.println("Not a bomb but...");
-                    matrixGridPlayer[lineByPlayer][columnByPlayer] = Tiles.TILE_ONE.getTileImage();
-                    player.buildGrid(matrixGridPlayer);
-                    checkWin(matrixGridPlayer);
-                    continue;
+
+                for (int i = 0; i < numbersImages.length; i++) {
+                    if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(numbersImages[i])) {
+                        clean();
+                        System.out.println("Not a bomb but...");
+                        matrixGridPlayer[lineByPlayer][columnByPlayer] = numbersImages[i];
+                        player.buildGrid(matrixGridPlayer);
+                        checkWin(matrixGridPlayer, lineByPlayer, columnByPlayer);
+                    }
                 }
                 //——————————————————————————————————————————
 
@@ -100,16 +113,17 @@ public class Game {
             } catch (InputMismatchException | InterruptedException e) {
                 scanner.nextLine();
                 System.out.println("Please, insert only numbers\n");
-            } catch (ArrayIndexOutOfBoundsException e){
+            } catch (ArrayIndexOutOfBoundsException e) {
                 scanner.nextLine();
                 System.out.println("You need to choose a number between 0-9\n");
-            } catch (Exception e){
+            } catch (Exception e) {
                 scanner.nextLine();
                 System.out.println("Another error");
             }
             //——————————————————————————————————————————
         } while (!isAlive);
     }
+
     //——————————————————————————————————————————
     void clean() {
         for (int i = 0; i < 40; i++) {
@@ -135,7 +149,7 @@ public class Game {
 
     }
 
-    public void checkWin(String[][] matrixGridPlayer) throws InterruptedException {
+    public void checkWin(String[][] matrixGridPlayer, int oneLine, int oneColumn) throws InterruptedException {
         int counter = 0;
         for (int i = 0; i < matrixGridPlayer.length; i++) {
             for (int j = 0; j < matrixGridPlayer.length; j++) {
@@ -144,7 +158,13 @@ public class Game {
                 }
             }
         }
-        System.out.println(counter);
+        for (int i = 0; i < numbersImages.length; i++) {
+            if (matrixGridPlayer[oneLine][oneColumn].equals(numbersImages[i])) {
+                counter++;
+            }
+        }
+        System.out.println();
+        System.out.println("Number of know places "+counter);
         if (counter >= 90) {
             clean();
             System.out.println("YOU WON");
