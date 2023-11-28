@@ -47,7 +47,6 @@ public class Main {
                 \tThe "🟧" it is your play.\s
                 \tThe "💣" it is the bomb.\s
                 \tThe numbers (ex: "0️⃣") it is the number correspondet of bombs nearby.\s
-                \tWhen you finnish the game, only the bombs will apear.\s
                 \tWhen you lose the game all the bombs will apear and a "🟥" on the bomb you blow up.\s
                 
                 """);
