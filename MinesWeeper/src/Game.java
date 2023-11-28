@@ -110,12 +110,15 @@ public class Game {
                     Thread.sleep(5000);
                     isAlive = true;
                 }
-            } catch (InputMismatchException | ArrayIndexOutOfBoundsException e) {
+            } catch (InputMismatchException | InterruptedException e) {
                 scanner.nextLine();
-                //System.out.println(e);
-                System.out.println("Please, only insert the right numbers\n");
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+                System.out.println("Please, insert only numbers\n");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                scanner.nextLine();
+                System.out.println("You need to choose a number between 0-9\n");
+            } catch (Exception e) {
+                scanner.nextLine();
+                System.out.println("Another error");
             }
             //——————————————————————————————————————————
         } while (!isAlive);
