@@ -150,16 +150,13 @@ public class Game {
         int counter = 0;
         for (int i = 0; i < matrixGridPlayer.length; i++) {
             for (int j = 0; j < matrixGridPlayer.length; j++) {
-                if (matrixGridPlayer[i][j].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+                if (matrixGridPlayer[i][j].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage()) || matrixGridPlayer[i][j].getValue() > 0) {
                     counter++;
                 }
+
             }
         }
-        for (int i = 0; i < numbersImages.length; i++) {
-            if (matrixGridPlayer[oneLine][oneColumn].getImageEmoji().equals(numbersImages[i])) {
-                counter++;
-            }
-        }
+
         System.out.println();
         System.out.println("Number of know places " + counter);
         if (counter >= 90) {
