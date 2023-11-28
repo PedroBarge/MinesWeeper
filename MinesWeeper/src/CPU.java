@@ -5,36 +5,43 @@ public class CPU extends MakeGrids {
 
 
     @Override
-    void makeNewGrid(String[][] oneMatrix) {
+    void makeNewGrid(Position[][] oneMatrix) {
         super.makeNewGrid(oneMatrix);
     }
 
 
-    void placeBombs(String[][] oneMatrix) {
+    void placeBombs(Position[][] oneMatrix) {
         int line;
         int column;
-        for (int i = 0; i < oneMatrix.length; i++) {
+        for (int i = 0; i < 15; i++) {
             line = random.nextInt(oneMatrix.length);
             column = random.nextInt(oneMatrix[0].length);
-
-            while (oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())) {
+            while (oneMatrix[line][column].getImageEmoji().equals(Tiles.TILE_BOMB.getTileImage())) {
                 line = random.nextInt(oneMatrix.length);
                 column = random.nextInt(oneMatrix[0].length);
             }
-            oneMatrix[line][column] = Tiles.TILE_BOMB.getTileImage();
+            oneMatrix[line][column] = new Position(Tiles.TILE_BOMB.getIndex(), Tiles.TILE_BOMB.getTileImage());
             placeNumbers(oneMatrix, line, column);
         }
     }
 
-    void placeNumbers(String[][] oneMatrix, int line, int column) {
+    void placeNumbers(Position[][] oneMatrix, int line, int column) {
 
-        // TODO: 27/11/2023 Verificar os numeros e mudar conforme o numero de bombas perto.
+        chekNumbers(oneMatrix, line - 1, column);
+        chekNumbers(oneMatrix, line + 1, column);
+        chekNumbers(oneMatrix, line, column - 1);
+        chekNumbers(oneMatrix, line, column + 1);
 
-        int numRows = oneMatrix.length;
-        int numCols = oneMatrix[0].length;
+        chekNumbers(oneMatrix, line + 1, column - 1);
+        chekNumbers(oneMatrix, line + 1, column + 1);
+        chekNumbers(oneMatrix, line - 1, column - 1);
+        chekNumbers(oneMatrix, line - 1, column + 1);
 
+    }
 
+    void chekNumbers(Position[][] oneMatrix, int line, int column) {
         String[] numbersImages = {
+                Tiles.DEFAULT.getTileImage(),
                 Tiles.TILE_ONE.getTileImage(),
                 Tiles.TILE_TWO.getTileImage(),
                 Tiles.TILE_THREE.getTileImage(),
@@ -45,59 +52,17 @@ public class CPU extends MakeGrids {
                 Tiles.TILE_EIGHT.getTileImage()
         };
 
-        if (line - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line - 1][column].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line - 1][column] = numbersImages[countBombs(oneMatrix, line, column) - 1];
+        if (line < 0 || line >= oneMatrix.length || column < 0 || column >= oneMatrix[0].length) {
+            return;
         }
-        if (line + 1 < numRows && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line + 1][column].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line + 1][column] = numbersImages[countBombs(oneMatrix, line, column) - 1];
+        if (!oneMatrix[line][column].getImageEmoji().equals(Tiles.TILE_BOMB.getTileImage())) {
+            oneMatrix[line][column].update(oneMatrix[line][column].getValue() + 1, numbersImages[oneMatrix[line][column].getValue() + 1]);
         }
-        if (column - 1 >= 0 && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line][column - 1].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line][column - 1] = numbersImages[countBombs(oneMatrix, line, column) - 1];
-        }
-        if (column + 1 < numCols && oneMatrix[line][column].equals(Tiles.TILE_BOMB.getTileImage())
-                && oneMatrix[line][column + 1].equals(Tiles.DEFAULT.getTileImage())) {
-            oneMatrix[line][column + 1] = numbersImages[countBombs(oneMatrix, line, column) - 1];
-        }
+
     }
-
-
-    int countBombs(String[][] oneMatrix, int line, int column) {
-        int counterBombs = 0;
-        int numRows = oneMatrix.length;
-        int numCols = oneMatrix[0].length;
-
-        for (int i = -1; i <= 1; i++) {
-            for (int j = -1; j <= 1; j++) {
-                int newRow = line + i;
-                int newCol = column + j;
-                if (newRow >= 0 && newRow < numRows && newCol >= 0 && newCol < numCols
-                        && oneMatrix[newRow][newCol].equals(Tiles.TILE_BOMB.getTileImage())) {
-                    counterBombs++;
-                }
-            }
-        }
-        return counterBombs;
-    }
-
-
-    /*int countBombs(String[][] oneMatrix) {
-        int counterBombs = 0;
-        for (int i = 0; i < oneMatrix.length; i++) {
-            for (int j = 0; j < oneMatrix.length; j++) {
-                if(oneMatrix[i][j].equals(Tiles.TILE_BOMB.getTileImage())){
-                    counterBombs++;
-                }
-            }
-        }
-        return counterBombs;
-    }*/
-
 
     @Override
-    void buildGrid(String[][] matrixGridCPU) {
+    void buildGrid(Position[][] matrixGridCPU) {
         super.buildGrid(matrixGridCPU);
     }
 }

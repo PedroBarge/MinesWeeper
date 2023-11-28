@@ -1,5 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Timer;
 
 public class Game {
     Scanner scanner = new Scanner(System.in);
@@ -20,10 +21,12 @@ public class Game {
             Tiles.TILE_SEVEN.getTileImage(),
             Tiles.TILE_EIGHT.getTileImage()
     };
+
     //——————————————————————————————————————————
+    Position[][] matrixGridCPU = new Position[10][10];
+    Position[][] matrixGridPlayer = new Position[10][10];
+
     public void starGame() {
-        String[][] matrixGridCPU = new String[10][10];
-        String[][] matrixGridPlayer = new String[10][10];
         //——————————————————————————————————————————
         cpuPlays.makeNewGrid(matrixGridCPU);
         //——————————————————————————————————————————
@@ -43,25 +46,17 @@ public class Game {
                     firtsPlay = true;
                 }
                 //——————————————————————————————————————————
-
-                /*if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
-                    System.out.println("You have already play in this position");
-                    continue;
-                }
-                if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
-                    System.out.println("You have already play in this position");
-                    continue;
-                }*/
                 checkRepeatPosition(matrixGridPlayer, lineByPlayer, columnByPlayer);
                 //——————————————————————————————————————————
-                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.DEFAULT.getTileImage())) {
+                if (matrixGridCPU[lineByPlayer][columnByPlayer].getImageEmoji().equals(Tiles.DEFAULT.getTileImage())) {
                     clean();
                     System.out.println("No bomb here");
-                    fillSpace(matrixGridCPU, lineByPlayer, columnByPlayer, Tiles.DEFAULT.getTileImage(), Tiles.TILE_PLAYER_ATACK.getTileImage());
+
+                    fillSpace(matrixGridPlayer, lineByPlayer, columnByPlayer, Tiles.DEFAULT.getTileImage(), Tiles.TILE_PLAYER_ATACK.getTileImage());
 
                     for (int i = 0; i < matrixGridPlayer.length; i++) {
                         for (int j = 0; j < matrixGridPlayer.length; j++) {
-                            if (matrixGridCPU[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+                            if (matrixGridCPU[i][j].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
                                 matrixGridPlayer[i][j] = matrixGridCPU[i][j];
                             }
                         }
@@ -71,40 +66,35 @@ public class Game {
                     continue;
                 }
                 //——————————————————————————————————————————
-                //Existe bom por perto
-                // TODO: 28/11/2023 Tenho que acabar isto
 
                 for (int i = 0; i < numbersImages.length; i++) {
-                    if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(numbersImages[i])) {
+                    if (matrixGridCPU[lineByPlayer][columnByPlayer].getImageEmoji().equals(numbersImages[i])) {
                         clean();
                         System.out.println("Not a bomb but...");
-                        matrixGridPlayer[lineByPlayer][columnByPlayer] = numbersImages[i];
+                        matrixGridPlayer[lineByPlayer][columnByPlayer].update(matrixGridCPU[lineByPlayer][columnByPlayer].getValue(), matrixGridCPU[lineByPlayer][columnByPlayer].getImageEmoji());
                         player.buildGrid(matrixGridPlayer);
+                        matrixGridCPU[lineByPlayer][columnByPlayer].update(Tiles.TILE_PLAYER_NUMBER.getIndex(),Tiles.TILE_PLAYER_NUMBER.getTileImage());
                         checkWin(matrixGridPlayer, lineByPlayer, columnByPlayer);
                     }
                 }
                 //——————————————————————————————————————————
 
                 //O jogo acabou Jogador perdeu
-                if (matrixGridCPU[lineByPlayer][columnByPlayer].equals(Tiles.TILE_BOMB.getTileImage())) {
+                if (matrixGridCPU[lineByPlayer][columnByPlayer].getImageEmoji().equals(Tiles.TILE_BOMB.getTileImage())) {
                     clean();
                     System.out.println("BOOOOOOM!!");
-                    matrixGridCPU[lineByPlayer][columnByPlayer] = Tiles.TILE_BOMB_EXPLODE.getTileImage();
+                    matrixGridCPU[lineByPlayer][columnByPlayer].update(Tiles.TILE_BOMB_EXPLODE.getIndex(), Tiles.TILE_BOMB_EXPLODE.getTileImage());
+
                     for (int i = 0; i < matrixGridCPU.length; i++) {
                         for (int j = 0; j < matrixGridCPU.length; j++) {
-                            if (!matrixGridCPU[i][j].equals(Tiles.TILE_BOMB.getTileImage()) && !matrixGridCPU[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())
-                                    && !matrixGridCPU[i][j].equals(Tiles.TILE_BOMB_EXPLODE.getTileImage())) {
-                                matrixGridCPU[i][j] = Tiles.DEFAULT.getTileImage();
+                            if (!matrixGridCPU[i][j].getImageEmoji().equals(Tiles.TILE_BOMB.getTileImage())
+                                    && !matrixGridCPU[i][j].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage())
+                                    && !matrixGridCPU[i][j].getImageEmoji().equals(Tiles.TILE_BOMB_EXPLODE.getTileImage())) {
+                                matrixGridCPU[i][j].update(Tiles.DEFAULT.getIndex(), Tiles.DEFAULT.getTileImage());
                             }
                         }
                     }
-                    for (int i = 0; i < matrixGridCPU.length; i++) {
-                        for (int j = 0; j < matrixGridCPU.length; j++) {
-                            if (matrixGridPlayer[i][j].equals(Tiles.TILE_ONE.getTileImage())) {
-                                matrixGridCPU[i][j] = Tiles.TILE_PLAYER_ATACK.getTileImage();
-                            }
-                        }
-                    }
+
                     cpuPlays.buildGrid(matrixGridCPU);
                     Thread.sleep(5000);
                     isAlive = true;
@@ -112,11 +102,14 @@ public class Game {
 
             } catch (InputMismatchException | InterruptedException e) {
                 scanner.nextLine();
+                System.out.println(e.getMessage());
                 System.out.println("Please, insert only numbers\n");
             } catch (ArrayIndexOutOfBoundsException e) {
                 scanner.nextLine();
+                System.out.println(e.getMessage());
                 System.out.println("You need to choose a number between 0-9\n");
             } catch (Exception e) {
+                System.out.println(e.getMessage());
                 scanner.nextLine();
                 System.out.println("Another error");
             }
@@ -131,16 +124,21 @@ public class Game {
         }
     }
 
-    public void fillSpace(String[][] oneMatrix, int oneLine, int oneColumn, String oldColor, String newColor) {
+    public void fillSpace(Position[][] oneMatrix, int oneLine, int oneColumn, String oldColor, String newColor) {
 
         if (oneLine < 0 || oneLine >= oneMatrix.length || oneColumn < 0 || oneColumn >= oneMatrix.length) {
             return;
         }
-        if (!oneMatrix[oneLine][oneColumn].equals(oldColor)) {
+        if (!oneMatrix[oneLine][oneColumn].getImageEmoji().equals(oldColor)) {
             return;
         }
 
-        oneMatrix[oneLine][oneColumn] = newColor;
+        if (matrixGridCPU[oneLine][oneColumn].getValue() > 0) {
+            oneMatrix[oneLine][oneColumn].update(matrixGridCPU[oneLine][oneColumn].getValue(), matrixGridCPU[oneLine][oneColumn].getImageEmoji());
+            matrixGridCPU[oneLine][oneColumn].update(Tiles.TILE_PLAYER_NUMBER.getIndex(),Tiles.TILE_PLAYER_NUMBER.getTileImage());
+            return;
+        }
+        oneMatrix[oneLine][oneColumn].update(Tiles.TILE_PLAYER_ATACK.getIndex(), Tiles.TILE_PLAYER_ATACK.getTileImage());
 
         fillSpace(oneMatrix, oneLine + 1, oneColumn, oldColor, newColor);
         fillSpace(oneMatrix, oneLine - 1, oneColumn, oldColor, newColor);
@@ -149,22 +147,22 @@ public class Game {
 
     }
 
-    public void checkWin(String[][] matrixGridPlayer, int oneLine, int oneColumn) throws InterruptedException {
+    public void checkWin(Position[][] matrixGridPlayer, int oneLine, int oneColumn) throws InterruptedException {
         int counter = 0;
         for (int i = 0; i < matrixGridPlayer.length; i++) {
             for (int j = 0; j < matrixGridPlayer.length; j++) {
-                if (matrixGridPlayer[i][j].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+                if (matrixGridPlayer[i][j].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
                     counter++;
                 }
             }
         }
         for (int i = 0; i < numbersImages.length; i++) {
-            if (matrixGridPlayer[oneLine][oneColumn].equals(numbersImages[i])) {
+            if (matrixGridPlayer[oneLine][oneColumn].getImageEmoji().equals(numbersImages[i])) {
                 counter++;
             }
         }
         System.out.println();
-        System.out.println("Number of know places "+counter);
+        System.out.println("Number of know places " + counter);
         if (counter >= 90) {
             clean();
             System.out.println("YOU WON");
@@ -174,12 +172,12 @@ public class Game {
         }
     }
 
-    public void checkRepeatPosition(String[][] matrixGridPlayer, int lineByPlayer, int columnByPlayer) {
+    public void checkRepeatPosition(Position[][] matrixGridPlayer, int lineByPlayer, int columnByPlayer) {
 
-        if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
+        if (matrixGridPlayer[lineByPlayer][columnByPlayer].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage())) {
             System.out.println("You have already play in this position");
         }
-        if (matrixGridPlayer[lineByPlayer][columnByPlayer].equals(Tiles.TILE_ONE.getTileImage())) {
+        if (matrixGridPlayer[lineByPlayer][columnByPlayer].getImageEmoji().equals(Tiles.TILE_ONE.getTileImage())) {
             System.out.println("You have already play in this position");
         }
     }

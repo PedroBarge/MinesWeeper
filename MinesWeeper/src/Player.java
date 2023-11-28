@@ -1,12 +1,12 @@
 public class Player extends MakeGrids {
 
     @Override
-    void makeNewGrid(String[][] oneMatrix) {
+    void makeNewGrid(Position[][] oneMatrix) {
         super.makeNewGrid(oneMatrix);
     }
 
     @Override
-    void buildGrid(String[][] oneMatrix) {
+    void buildGrid(Position[][] oneMatrix) {
         super.buildGrid(oneMatrix);
     }
 

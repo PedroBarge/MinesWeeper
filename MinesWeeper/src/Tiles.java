@@ -1,4 +1,5 @@
 enum Tiles {
+    TILE_PLAYER_NUMBER(-4,"\t🟨"),
     TILE_BOMB_EXPLODE(-3, "\t🟥"),
     TILE_BOMB(-2, "\t💣"),
     TILE_PLAYER_ATACK(-1, "\t🟧"),
