@@ -57,6 +57,8 @@ public class Game {
                     fillSpace(matrixGridPlayer, lineByPlayer, columnByPlayer, Tiles.DEFAULT.getTileImage(), Tiles.TILE_PLAYER_ATACK.getTileImage());
 
                     player.buildGrid(matrixGridPlayer);
+
+                    matrixGridCPU[lineByPlayer][columnByPlayer].update(Tiles.TILE_PLAYER_ATACK.getIndex(),Tiles.TILE_PLAYER_ATACK.getTileImage());
                     checkWin(matrixGridPlayer, lineByPlayer, columnByPlayer);
                     continue;
                 }
@@ -81,7 +83,8 @@ public class Game {
                     System.out.println("BOOOOOOM!!");
                     thisPlaceInCpuBombExplode(lineByPlayer, columnByPlayer);
 
-                    for (int i = 0; i < matrixGridCPU.length; i++) {
+
+                for (int i = 0; i < matrixGridCPU.length; i++) {
                         for (int j = 0; j < matrixGridCPU.length; j++) {
                             if (       !matrixGridCPU[i][j].getImageEmoji().equals(Tiles.TILE_BOMB.getTileImage())
                                     && !matrixGridCPU[i][j].getImageEmoji().equals(Tiles.TILE_PLAYER_ATACK.getTileImage())
@@ -153,6 +156,7 @@ public class Game {
             return;
         }
         oneMatrix[oneLine][oneColumn].update(Tiles.TILE_PLAYER_ATACK.getIndex(), Tiles.TILE_PLAYER_ATACK.getTileImage());
+        matrixGridCPU[oneLine][oneColumn].update(Tiles.TILE_PLAYER_ATACK.getIndex(),Tiles.TILE_PLAYER_ATACK.getTileImage());
 
         fillSpace(oneMatrix, oneLine + 1, oneColumn, oldColor, newColor);
         fillSpace(oneMatrix, oneLine - 1, oneColumn, oldColor, newColor);
