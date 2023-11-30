@@ -42,16 +42,16 @@ public class Main {
         System.out.println("\t\t\t\t\t\t\t\t\tRULES");
         System.out.println("\t\t\tThis game is based in Minesweeper\n");
         System.out.println("""
-                \tWhen the game starts, you will see a exemple map\s
+                \tWhen the game starts, you will see a example map\s
                 \tYou need to pick a line's number and press enter to choose a column's number.\s
                 \tThe "🟧" it is your play.\s
                 \tThe "💣" it is the bomb.\s
-                \tThe numbers (ex: "0️⃣") it is the number correspondet of bombs nearby.\s
+                \tThe numbers (ex: "0️⃣") it is the number correspondent of bombs nearby.\s
                 \tWhen you lose the game all the bombs will apear and a "🟥" on the bomb you blow up.\s
                 
                 """);
         System.out.println();
-        System.out.println("OBS: The game can be lost in the frist play like the old rules.");
+        System.out.println("OBS: The game can be lost in the first play like the old rules.");
         System.out.println("+------------------------------------------------------------------------------------+");
         Thread.sleep(20000);
         clean();

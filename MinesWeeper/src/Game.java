@@ -51,7 +51,7 @@ public class Game {
 
                 //Safe play
                 if (thisPalceInCPUIsEqualsToDefault(lineByPlayer, columnByPlayer)) {
-                    clean();
+                    Main.clean();
                     System.out.println("No bomb here");
 
                     fillSpace(matrixGridPlayer, lineByPlayer, columnByPlayer, Tiles.DEFAULT.getTileImage(), Tiles.TILE_PLAYER_ATACK.getTileImage());
@@ -67,7 +67,7 @@ public class Game {
                 //Not so safe play
                 for (int i = 0; i < numbersImages.length; i++) {
                     if (matrixGridCPU[lineByPlayer][columnByPlayer].getImageEmoji().equals(numbersImages[i])) {
-                        clean();
+                        Main.clean();
                         System.out.println("Not a bomb but...");
                         updatePlayer(lineByPlayer, columnByPlayer);
                         player.buildGrid(matrixGridPlayer);
@@ -79,7 +79,7 @@ public class Game {
 
                 //O jogo acabou Jogador perdeu
                 if (matrixGridCPU[lineByPlayer][columnByPlayer].getImageEmoji().equals(Tiles.TILE_BOMB.getTileImage())) {
-                    clean();
+                    Main.clean();
                     System.out.println("BOOOOOOM!!");
                     thisPlaceInCpuBombExplode(lineByPlayer, columnByPlayer);
 
@@ -102,13 +102,16 @@ public class Game {
 
             } catch (InputMismatchException | InterruptedException e) {
                 scanner.nextLine();
+                Main.clean();
                 System.out.println(e.getMessage());
                 System.out.println("Please, insert only numbers\n");
             } catch (ArrayIndexOutOfBoundsException e) {
                 scanner.nextLine();
+                Main.clean();
                 System.out.println(e.getMessage());
                 System.out.println("You need to choose a number between 0-9\n");
             } catch (Exception e) {
+                Main.clean();
                 System.out.println(e.getMessage());
                 scanner.nextLine();
                 System.out.println("Another error");
@@ -135,11 +138,6 @@ public class Game {
     }
 
     //——————————————————————————————————————————
-    void clean() {
-        for (int i = 0; i < 40; i++) {
-            System.out.println();
-        }
-    }
 
     public void fillSpace(Position[][] oneMatrix, int oneLine, int oneColumn, String oldColor, String newColor) {
 
@@ -179,7 +177,7 @@ public class Game {
         System.out.println();
         System.out.println("Number of know places " + counter);
         if (counter >= 85) {
-            clean();
+            Main.clean();
             System.out.println("YOU WON");
             player.buildGrid(matrixGridPlayer);
             Thread.sleep(5000);
