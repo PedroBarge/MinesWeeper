@@ -42,7 +42,7 @@ public class Game {
                 int columnByPlayer = scanner.nextInt();
                 if (!firtsPlay) {
                     cpuPlays.placeBombs(matrixGridCPU);
-                    cpuPlays.buildGrid(matrixGridCPU);
+                    //cpuPlays.buildGrid(matrixGridCPU);
                     firtsPlay = true;
                 }
                 //——————————————————————————————————————————
