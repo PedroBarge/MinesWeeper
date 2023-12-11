@@ -17,8 +17,8 @@ public class Position {
         return imageEmoji;
     }
 
-    public void update(int value, String imageEmoji){
+    public void update(int value, String imageEmoji) {
         this.value = value;
-        this.imageEmoji=imageEmoji;
+        this.imageEmoji = imageEmoji;
     }
 }

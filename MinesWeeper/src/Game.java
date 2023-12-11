@@ -1,6 +1,5 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.Timer;
 
 public class Game {
     Scanner scanner = new Scanner(System.in);
